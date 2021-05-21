@@ -1,0 +1,16 @@
+---
+title: New GGplot2 graph
+author: 'Josh Howard'
+date: '2021-05-21'
+slug: []
+categories: ["R"]
+tags: ["R Markdown", "plot"]
+---
+
+
+```{r}
+library(tidyverse)
+
+mpg %>% ggplot(aes(class, fill = drv)) + geom_bar() + theme_dark()
+```
+

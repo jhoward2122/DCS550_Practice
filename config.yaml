@@ -1,5 +1,5 @@
 baseURL: https://dcs550practice.netlify.app
-title: Your title
+title: DCS 550 Practice Blog
 theme: hugo-theme-m10c
 paginate: 8
 menu:
@@ -17,13 +17,13 @@ menu:
       url: /about/
       weight: 3
 params:
-  author: John Doe
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  author: Josh Howard
+  description:  Christ-follower, UNC Grad, Coach, Teacher, Proud Husband and Dad
   menu_item_separator: ' - '
   social:
     - icon: github
       name: Github
-      url: https://github.com/gohugoio
+      url: https://github.com/jhoward2122
     - icon: twitter
       name: Twitter
       url: https://twitter.com/gohugoio
