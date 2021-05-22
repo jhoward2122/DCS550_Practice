@@ -34,3 +34,5 @@ Launched the hugo server in the background (process ID: 42936). To stop it, call
 
 
 new_post(title="New GGplot2 graph", ext=" .Rmd", subdir="posts")
+new_post(title = "Quiz (2) Final Project Topic", ext = ".Rmd", subdir = "posts")
+new_post(title = "Homework (3) Day 5 plots", ext = ".Rmd", subdir = "posts")
