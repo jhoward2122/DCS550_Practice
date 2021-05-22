@@ -1,0 +1,14 @@
+---
+title: Homework (3) Day 5 plots
+author: Josh Howard
+date: '2021-05-21'
+slug: []
+categories: ["DCS 550 Homework 3"]
+tags: []
+---
+
+
+```{r}
+# Replicate Day 5 plots 
+```
+
