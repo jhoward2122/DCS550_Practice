@@ -9,6 +9,228 @@ tags: []
 
 
 ```{r}
-# Replicate Day 5 plots 
+library(tidyverse)
+library(ggforce)
+library(directlabels)
+library(gghighlight)
+library(patchwork)
+
+
+presidential <- subset(presidential, start > economics$date[1])
+
+plot6 <- economics %>% ggplot() +
+  geom_line(aes(date, unemploy))
+
+plot(plot6)
+
+plot7 <- plot6 + 
+  geom_rect(aes(xmin = start, xmax = end, fill = party),
+            ymin = -Inf, ymax = Inf, alpha = 0.2,
+            data = presidential)
+plot(plot7)
+
+plot8 <- plot7 + geom_vline(aes(xintercept = as.numeric(start)),
+                            data = presidential,
+                            color = 'grey50', alpha = 0.5)
+plot(plot8)
+
+
+plot9 <- plot8 + geom_text(aes(x = start, y = 2500, label = name),
+                           data = presidential, 
+                           size = 3, vjust = 0, hjust = 0, nudge_x = 50)
+plot9
+
+plot10 <- plot9 + scale_fill_manual(values = c('blue', 'red')) +
+  xlab('date') + ylab('unemployment')
+plot10
+
+# This allows us to highlight subaru vehicles in orange
+p <- ggplot(mpg, aes(displ, hwy)) +
+  geom_point(data = filter(mpg, manufacturer == 'subaru'),
+             color = 'orange',
+             size = 3) +
+  geom_point()
+print(p)
+
+p + annotate(geom = 'point', x = 5.5, y = 40, color = 'orange', size = 3) +
+  annotate(geom = 'point', x = 5.5, y = 40) +
+  annotate(geom = 'text', x = 5.6, y = 40, label = 'subaru', hjust = 'left')
+
+# Using annotation to "point" to subaru points
+p + annotate(geom = 'curve', x = 4, y = 35, xend = 2.65, yend = 27,
+             curvature = 0.3, arrow = arrow(length = unit(2, 'mm'))) +
+  annotate(geom = 'text', x = 4.1, y = 35, label = 'subaru', hjust = 'left')
+
+ggplot(mpg, aes(displ, hwy, color = class)) +
+  geom_point()
+
+ggplot(mpg, aes(displ, hwy, color = class)) +
+  geom_point(show.legend = FALSE) +
+  directlabels::geom_dl(aes(label = class), method = 'smart.grid')
+
+
+
+mpg %>% ggplot(aes(displ, hwy)) +
+  geom_point() +
+  geom_mark_ellipse(aes(label = cyl, group = cyl)) +
+  theme_minimal()
+# Also have theme_grey(), theme_bw(), theme_linedraw(), theme_light()
+# theme_dark(), theme_classic(), theme_void()
+
+mpg %>% ggplot(aes(displ, hwy)) +
+  geom_point() +
+  geom_mark_ellipse(aes(label = cyl, group = cyl)) +
+  theme_dark()
+
+
+
+mpg %>% ggplot(aes(displ, hwy)) +
+  geom_point() +
+  geom_mark_ellipse(aes(label = cyl, group = cyl)) +
+  xlim(1, 7.2) + ylim(9, 46) +
+  theme_minimal()
+
+
+
+mpg %>% ggplot(aes(displ, hwy, color = factor(cyl))) +
+  geom_point(show.legend = FALSE) +
+  geom_mark_ellipse(aes(group = cyl)) +
+  xlim(1, 7.2) + ylim(9, 46) +
+  geom_dl(aes(label = cyl), method = 'smart.grid')
+  theme_minimal()
+
+  
+# How to remove legend
+
+# Remove the legend title only    
+p + theme(legend.title = element_blank())
+
+
+# Hide the legend for specific geometry only
+#p + geom_YOUR_CHOICE(aes(color = VAR_NAME), show.legend = FALSE)
+
+# Hide the entire legend
+
+p + theme(legend.position = 'none')
+
+data(Oxboys, package = 'nlme')
+
+
+Oxboys %>% ggplot(aes(age, height, group = Subject)) +
+  geom_line() +
+  geom_point() +
+  gghighlight(Subject %in% 1:3)
+
+diamonds %>% ggplot(aes(log10(carat), log10(price))) +
+  geom_bin2d() +
+  facet_wrap(~cut, nrow=1)
+
+# Build a linear model to use 
+linear_model <- lm(log10(price)~log10(carat), data = diamonds)
+coef_values <- coef(linear_model)
+
+# Use abline to draw straight lines
+diamonds %>% ggplot(aes(log10(carat), log10(price))) +
+  geom_bin2d() +
+  geom_abline(intercept = coef_values[1], slope = coef_values[2], color = 'white', size = 0.7) +
+  facet_wrap(~cut, nrow=1)
+
+mpg %>% ggplot(aes(displ, hwy, color = factor(cyl))) +
+  geom_point() +
+  gghighlight() +
+  facet_wrap(~cyl, nrow=1)
+
+plot_1 <- mpg %>% ggplot() + geom_point(aes(x=displ, y=hwy))
+plot(plot_1)
+
+plot_2 <- mpg %>% ggplot() + geom_bar(aes(x=as.character(year), fill=drv), position = 'dodge') +
+  xlab('year')
+plot(plot_2)
+
+plot_3 <- mpg %>% ggplot() + geom_density(aes(x=hwy, fill=drv), color = NA) +
+  facet_wrap(~drv, ncol=1)
+plot(plot_3)
+
+plot_4 <- mpg %>% ggplot() + stat_summary(aes(x=drv, y=hwy, fill=drv), geom='col', fun.data=mean_se) +
+  stat_summary(aes(x=drv, y=hwy), geom = 'errorbar', fun.data=mean_se, width=0.5)
+plot(plot_4)
+
+# Using the patchwork package we can display plots side by side in multiple ways
+plot_1 + plot_2
+
+plot(plot_1 + plot_2)
+
+plot_1 + plot_2 + plot_3
+
+plot_1 + plot_2 + plot_3 + plot_4
+
+plot_1 + plot_2 + plot_3 + plot_layout(ncol=2)
+
+plot_1 / plot_2
+
+plot_1 | plot_2
+
+plot_3 | (plot_2 / (plot_1 | plot_4))
+
+# For complex layouts we can do the following:
+
+layout_1 <- "
+AAB
+C#B
+CDD
+"
+plot_1 + plot_2 + plot_3 + plot_4 + plot_layout(design=layout_1)
+
+# We can put all of the legends in one place:
+plot_1 + plot_2 + plot_3 + plot_4 + plot_layout(design=layout_1, guides = 'collect')
+
+# Guide area allows us to put legends in an empty area
+plot_1 + plot_2 + plot_3 + guide_area() + plot_layout(ncol=2, guides = 'collect')
+
+# Modifying subplots
+plot_1_2 <- plot_1 + plot_2
+plot_1_2[[1]] <- plot_1_2[[1]] + theme_dark()
+plot_1_2[[2]] <- plot_1_2[[2]] + theme_classic()
+plot_1_2
+
+# Assigning common themes
+plot_1 + plot_4 & theme_minimal()
+
+# Assigning common y axis 
+plot_1 + plot_4 & scale_y_continuous(limits = c(0, 45))
+
+# Adding annotation in the patchwork package
+
+plot_3_4 <- plot_3 + plot_4 +plot_annotation(
+  title = 'A closer look at the effect of drive train in cars',
+  caption = "Source: mpg dataset in ggplot2"
+)
+plot_3_4
+
+plot_3_4 + plot_annotation(theme=theme_gray(base_family = 'mono'))
+
+plot_3_4 & theme_gray( base_family="mono" )
+
+# Tagging each plot (Roman Numerals in this case)
+plot_1_2_3 <- plot_1 | ( plot_2 / plot_3 )
+plot_1_2_3 + plot_annotation( tag_levels="I" ) 
+
+# We can use nesting to define different tag levels
+plot_1_2_3[[2]] <- plot_1_2_3[[2]] + plot_layout( tag_level="new" )
+plot_1_2_3 + plot_annotation( tag_levels = c("I", "a") )
+
+# Set one plot "inside" another plot
+plot_1 + inset_element(plot_2, left = 0.5, bottom=0.4, right=0.9, top=0.95)
+
+plot_1_2_a <-  plot_1 + inset_element( plot_2, left=0.5, bottom=0.4, 
+                                       right= unit(1, "npc") - unit(5, "mm"),
+                                       top= unit(1, "npc") - unit( 3, "mm" ), 
+                                       align_to = "full" )
+plot( plot_1_2_a )
+
+plot_1_2_a & theme_minimal()
+
+plot_1_2_a + plot_annotation( tag_levels="A" ) & theme_dark()
+
 ```
 
