@@ -8,7 +8,7 @@ tags: []
 ---
 
 
-```{r}
+```{r, show = FALSE}
 library(tidyverse)
 library(ggforce)
 library(directlabels)
