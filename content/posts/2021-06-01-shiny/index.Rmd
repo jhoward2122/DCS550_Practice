@@ -7,5 +7,5 @@ categories: [R]
 tags: [shiny]
 ---
 
-<iframe, src = "https://jhowarddcspractice.shinyapps.io/first_shiny_app/" width = "800"
+<iframe src = "https://jhowarddcspractice.shinyapps.io/first_shiny_app/" width = "800"
 height = "600" style = "border:none;"></iframe>
