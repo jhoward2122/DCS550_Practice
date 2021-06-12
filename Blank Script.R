@@ -26,7 +26,7 @@ Rendering content/posts/2020-12-01-r-rmarkdown/index.Rmd... Done.
 The web server has been stopped.
 > hugo_version()
 [1] ‘0.83.1’
-> serve_site()
+serve_site()
 Launching the server via the command:
   /Users/joshhoward/Library/Application Support/Hugo/0.83.1/hugo server --bind 127.0.0.1 -p 5118 --themesDir themes -t hugo-theme-m10c -D -F --navigateToChanged
 Serving the directory . at http://localhost:5118
@@ -36,3 +36,5 @@ Launched the hugo server in the background (process ID: 42936). To stop it, call
 new_post(title="New GGplot2 graph", ext=" .Rmd", subdir="posts")
 new_post(title = "Quiz (2) Final Project Topic", ext = ".Rmd", subdir = "posts")
 new_post(title = "Homework (3) Day 5 plots", ext = ".Rmd", subdir = "posts")
+blogdown::new_post(title = "Shiny", ext = ".Rmd", subdir = "posts")
+getwd()
