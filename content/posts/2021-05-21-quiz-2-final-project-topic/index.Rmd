@@ -7,7 +7,7 @@ categories: ["Final Project"]
 tags: ["Final Project"]
 ---
 
-#Final Project Topic: Discipline and Rules in Schools
+# Final Project Topic: Discipline and Rules in Schools
 
 The Junior High and High School years are arguably the most important for a 
 young person as they determine the course of their future. One of the most
