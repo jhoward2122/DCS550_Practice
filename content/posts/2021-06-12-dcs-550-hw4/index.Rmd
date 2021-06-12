@@ -1,0 +1,12 @@
+---
+title: DCS 550 HW4
+author: R package build
+date: '2021-06-12'
+slug: []
+categories: ["Homework_4"]
+tags: ["Homework_4"]
+---
+
+# Question 1
+
+<img src="IMG_5890.png" alt="drawing" style="float:center;width:400px;"/>
