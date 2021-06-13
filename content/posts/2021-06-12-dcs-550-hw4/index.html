@@ -13,3 +13,52 @@ tags: ["Homework_4"]
 <h1>Question 1</h1>
 <p><img src="IMG_5891.jpg" alt="drawing" style="float:center;width:400px;"/></p>
 </div>
+<div id="question-2" class="section level1">
+<h1>Question 2</h1>
+<pre class="r"><code>injuries %&gt;%
+  mutate(diag = fct_lump(fct_infreq(diag, n = 5))) %&gt;%
+  group_by(diag) %&gt;%
+  summarise(n = as.integer(sum(weight)))</code></pre>
+<p>The original code above groups the diagnosis factors largest to smallest up to
+the nth factor (in this case n = 5) with the “other or not stated” factor
+being first. After the nth factor, everything else is lumped into “other.”</p>
+<p>If we switch the two functions, we first see that “other” is now listed first
+and while the list is technically in descending order, it is somewhat misleading
+because it first lumped factors past n = 5 into the “other” category and then
+listed the top 5.</p>
+<pre class="r"><code>injuries %&gt;%
+  mutate(diag = fct_infreq(fct_lump(diag, n = 5))) %&gt;%
+  group_by(diag) %&gt;%
+  summarise(n = as.integer(sum(weight)))</code></pre>
+</div>
+<div id="question-3" class="section level1">
+<h1>Question 3</h1>
+<pre class="r"><code>  # Orignal front and back end from chapter
+  fluidRow(
+    column(4, tableOutput(&quot;diag&quot;)),
+    column(4, tableOutput(&quot;body_part&quot;)),
+    column(4, tableOutput(&quot;location&quot;))
+    
+  output$diag &lt;- renderTable(count_top(selected(), diag), width = &quot;100%&quot;)
+  output$body_part &lt;- renderTable(count_top(selected(), body_part), width = &quot;100%&quot;)
+  output$location &lt;- renderTable(count_top(selected(), location), width = &quot;100%&quot;)</code></pre>
+<p>The above code is from the original in chapter 4. The three table outputs
+produce static tables. If we change this to dataTableOutput on the front end and
+also adjust the back end we can give drop down options for the user to see.
+Below you can see the front end code chunk as well as the changed back end.</p>
+<pre class="r"><code># Front end changed to allow drop down
+  fluidRow(
+        column(4, dataTableOutput(&quot;diag&quot;)),
+        column(4, dataTableOutput(&quot;body_part&quot;)),
+        column(4, dataTableOutput(&quot;location&quot;))
+# Back end to produce the drop down options        
+    output$diag &lt;- renderDataTable(count_top(selected(), diag), options = list(pageLength = 5))
+    output$body_part &lt;- renderDataTable(count_top(selected(), body_part), options = list(pageLength = 5))
+    output$location &lt;- renderDataTable(count_top(selected(), location), options = list(pageLength = 5))</code></pre>
+</div>
+<div id="question-4" class="section level1">
+<h1>Question 4</h1>
+<p>I’m not quite sure on this. I know we would need to add 2 action buttons using
+something like “forward” and “back”. We could possibly group them by factor or
+alphabetical and then serve those in eventReactive like we discussed in chapter 3.</p>
+</div>

@@ -1,6 +1,9 @@
 library(blogdown)
-library(blogdown)
-> install_hugo()
+library(vroom)
+library(tidyverse)
+library(shiny)
+packageVersion('blogdown')
+<img src="/./Blank Script_files/IMG_5890.jpg" alt="" width="400px"/>> install_hugo()
 The latest Hugo version is v0.83.1
 Hugo 0.83.1 has already been installed. To reinstall, use the argument force = TRUE.
 > new_site(theme = "vaga/hugo-theme-m10c")
@@ -38,3 +41,4 @@ new_post(title = "Quiz (2) Final Project Topic", ext = ".Rmd", subdir = "posts")
 new_post(title = "Homework (3) Day 5 plots", ext = ".Rmd", subdir = "posts")
 blogdown::new_post(title = "Shiny", ext = ".Rmd", subdir = "posts")
 getwd()
+new_post(title = "DCS 550 HW4", ext = ".Rmd", subdir = "posts")
