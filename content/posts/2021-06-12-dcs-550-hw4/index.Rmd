@@ -9,4 +9,9 @@ tags: ["Homework_4"]
 
 # Question 1
 
-<img src="IMG_5890.png" alt="drawing" style="float:center;width:400px;"/>
+```{r}
+<img src="IMG_5891.jpg" alt="drawing" style="float:center;width:400px;"/>
+```
+
+
+
