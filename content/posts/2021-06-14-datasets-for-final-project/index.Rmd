@@ -1,0 +1,71 @@
+---
+title: Datasets for Final Project
+author: R package build
+date: '2021-06-14'
+slug: []
+categories: ["Final Project Datasets"]
+tags: ["Final Project Datasets"]
+---
+
+```{r include = FALSE}
+
+library(tidyverse)
+library(skimr)
+library(readr)
+Total_Infractions <- read_csv("Total_Infractions.csv")
+
+Infractions_2016 <- read_csv("2016 infractions.csv")
+
+Infractions_2017 <- read_csv("2017 infractions.csv")
+
+
+Infractions_2018 <- read_csv("2018 infractions.csv")
+View(Infractions_2018)
+
+Infractions_Code <- read_csv("Infractions_Code.csv")
+View(Infractions_Code)
+
+```
+
+
+
+# Summary of Total Infractions
+  
+  + Total Infractions by year according to infraction type
+  
+    +   The Total Infractions dataset contains the years 2016-2018 discipline
+  issues broken down by the infraction code seen in the first column. This set shows the number of total occurrences of each type of infraction by year. This dataset is useful in possibly identifying any problem areas within the school's discipline system and could help determine what, if any, changes need to be made.
+  
+  
+  
+  
+```{r}
+head(Total_Infractions)
+```
+
+
+# Infractions Code Key for Dataset
+
+  + The following dataset explains the codes for each infraction in the first column of the Total_Infractions dataset. 
+  
+```{r}
+Infractions_Code
+```
+
+
+
+# Summary of Yearly Infractions Sorted by Individuals
+  + Infractions on a year to year basis sorted by grade, gender, and severity
+    
+    + The following datasets contain the year to year infractions by ID, grade, and gender. The Infractions column indicates the total number of infractions by a particular student during that academic year, and the Demerits column gives the total number of demerits for discipline that individual received for that academic year. (Student ID's have been changed for privacy ). Of interest in these datasets is how does grade, gender, or a combination of both affect any discipline issues within the school, again with the goal of evaluating any positive changes that could be made to enhance student learning environments.
+  
+  
+```{r}
+head(Infractions_2016)
+
+summary(Infractions_2017)
+
+skim(Infractions_2018)
+
+```
+

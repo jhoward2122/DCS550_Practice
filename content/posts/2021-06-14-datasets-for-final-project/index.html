@@ -1,0 +1,224 @@
+---
+title: Datasets for Final Project
+author: R package build
+date: '2021-06-14'
+slug: []
+categories: ["Final Project Datasets"]
+tags: ["Final Project Datasets"]
+---
+
+
+
+<div id="summary-of-total-infractions" class="section level1">
+<h1>Summary of Total Infractions</h1>
+<ul>
+<li><p>Total Infractions by year according to infraction type</p>
+<ul>
+<li>The Total Infractions dataset contains the years 2016-2018 discipline
+issues broken down by the infraction code seen in the first column. This set shows the number of total occurrences of each type of infraction by year. This dataset is useful in possibly identifying any problem areas within the school’s discipline system and could help determine what, if any, changes need to be made.</li>
+</ul></li>
+</ul>
+<pre class="r"><code>head(Total_Infractions)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##   `Infraction Code` Occurrences_2016 Occurrences_2017 Occurences_2018
+##   &lt;chr&gt;                        &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
+## 1 FBEA                             1                5              10
+## 2 FR15                            36               13              23
+## 3 TW01                            10                9               8
+## 4 15DC                           148               89              85
+## 5 15DRES                           3                6               4
+## 6 15FRSP                          80               82              40</code></pre>
+</div>
+<div id="infractions-code-key-for-dataset" class="section level1">
+<h1>Infractions Code Key for Dataset</h1>
+<ul>
+<li>The following dataset explains the codes for each infraction in the first column of the Total_Infractions dataset.</li>
+</ul>
+<pre class="r"><code>Infractions_Code</code></pre>
+<pre><code>## # A tibble: 39 x 2
+##    Code  Explanation                           
+##    &lt;chr&gt; &lt;chr&gt;                                 
+##  1 FBEA  Failure to bring excuse for absence   
+##  2 FR15  Failure to report to 15 min detention 
+##  3 TWO1  Receiving 2 15 min detentions in 24 hr
+##  4 DC    Disorderly Conduct                    
+##  5 DRES  Minor Dress Code                      
+##  6 FRSP  Failure to return signed papers       
+##  7 OTHE  Talking/Disrupting                    
+##  8 UC    Unprepared for Class                  
+##  9 TARD  Tardy for Class                       
+## 10 CHEAT Cheating                              
+## # … with 29 more rows</code></pre>
+</div>
+<div id="summary-of-yearly-infractions-sorted-by-individuals" class="section level1">
+<h1>Summary of Yearly Infractions Sorted by Individuals</h1>
+<ul>
+<li><p>Infractions on a year to year basis sorted by grade, gender, and severity</p>
+<ul>
+<li>The following datasets contain the year to year infractions by ID, grade, and gender. The Infractions column indicates the total number of infractions by a particular student during that academic year, and the Demerits column gives the total number of demerits for discipline that individual received for that academic year. (Student ID’s have been changed for privacy ). Of interest in these datasets is how does grade, gender, or a combination of both affect any discipline issues within the school, again with the goal of evaluating any positive changes that could be made to enhance student learning environments.</li>
+</ul></li>
+</ul>
+<pre class="r"><code>head(Infractions_2016)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   ID    Gender Grade Infractions Demerits
+##   &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;
+## 1 AB007 Female     9           2        5
+## 2 AB009 Male      10           1        0
+## 3 AC006 Male       7          83       30
+## 4 AS001 Male      11          11       40
+## 5 AT003 Female    12           1       10
+## 6 AW007 Male      12           6       10</code></pre>
+<pre class="r"><code>summary(Infractions_2017)</code></pre>
+<pre><code>##       ID               Gender              Grade         Infractions    
+##  Length:82          Length:82          Min.   : 7.000   Min.   : 1.000  
+##  Class :character   Class :character   1st Qu.: 8.000   1st Qu.: 1.000  
+##  Mode  :character   Mode  :character   Median :10.000   Median : 3.000  
+##                                        Mean   : 9.695   Mean   : 4.146  
+##                                        3rd Qu.:11.000   3rd Qu.: 5.000  
+##                                        Max.   :12.000   Max.   :24.000  
+##     Demerits     
+##  Min.   : 0.000  
+##  1st Qu.: 0.000  
+##  Median : 0.000  
+##  Mean   : 5.793  
+##  3rd Qu.: 5.000  
+##  Max.   :60.000</code></pre>
+<pre class="r"><code>skim(Infractions_2018)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-4">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Infractions_2018</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">57</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">3</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">ID</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">57</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Gender</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Grade</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">9.65</td>
+<td align="right">1.72</td>
+<td align="right">7</td>
+<td align="right">9</td>
+<td align="right">9</td>
+<td align="right">11</td>
+<td align="right">12</td>
+<td align="left">▇▇▅▅▆</td>
+</tr>
+<tr class="even">
+<td align="left">Infractions</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">6.81</td>
+<td align="right">5.72</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">9</td>
+<td align="right">26</td>
+<td align="left">▇▂▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">Demerits</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">8.07</td>
+<td align="right">13.59</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">10</td>
+<td align="right">75</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>

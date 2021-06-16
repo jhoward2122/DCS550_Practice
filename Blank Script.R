@@ -42,3 +42,6 @@ new_post(title = "Homework (3) Day 5 plots", ext = ".Rmd", subdir = "posts")
 blogdown::new_post(title = "Shiny", ext = ".Rmd", subdir = "posts")
 getwd()
 new_post(title = "DCS 550 HW4", ext = ".Rmd", subdir = "posts")
+new_post(title = "Datasets for Final Project", ext = '.Rmd', subdir = 'posts')
+
+
