@@ -5,7 +5,7 @@ title: About Me
 
   # Hi! My name is Joshua Howard and here's a little about me:
   
-  I've been blessed more than I can describe and I'm thankful for that. My goal is to continue to improve in every area I can and to be a servant to others as much as possible. This is a life long pursuit with ups and downs but the goal stays the same.
+
   
   * Married to my amazing wife Kristi since 2008 with 2 awesome sons.
     + Zeke is 4 years old 
@@ -26,4 +26,5 @@ title: About Me
     + Exercise (followed by eating chocolate because balance is key)
     + Spending time with the fam
     
+    I've been blessed more than I can describe and I'm thankful for that. My goal is to continue to improve in every area I can and to be a servant to others as much as possible. This is a life long pursuit with ups and downs but the goal stays the same.
    
