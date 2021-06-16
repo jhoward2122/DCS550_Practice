@@ -63,9 +63,17 @@ Infractions_Code
 ```{r}
 head(Infractions_2016)
 
+```
+
+
+```{r}
+
 summary(Infractions_2017)
 
-skim(Infractions_2018)
+```
 
+
+```{r}
+skim(Infractions_2018)
 ```
 
