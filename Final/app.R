@@ -17,7 +17,8 @@ library(blogdown)
 library(vroom)
 Infractions_3year <- read_csv("Infractions_3year.csv")
 Infractions_3year <- Infractions_3year %>% mutate(Year = as.factor(Year), Grade = as.factor(Grade))
-
+Infractions_Code_Total <- read_csv("Infractions_Code Total.csv")
+Infractions_Code_Total <- Infractions_Code_Total[-c(61,62,63,64,65,66,67,68,110,111,112,113,114,115,116,117),]
 
 
 
@@ -45,9 +46,10 @@ ui <- fluidPage(
              titlePanel("Summary of Infraction Type by Year"),
              sidebarLayout(
                sidebarPanel(
-                 radioButtons('year', "Years", choices = c(2016, 2017, 2018))
+                 radioButtons('year', "Years", choices = c('2016', '2017', '2018'))
                ),
-               mainPanel(plotOutput('barcount'))
+               mainPanel(plotOutput('barcount')
+                         )
              )
     ),
     tabPanel("Yearly Changes by Student",
@@ -81,7 +83,7 @@ server <- function(input, output, session) {
       ggplot() + geom_bar(aes(Year, Infractions, fill = Year), stat = 'identity'))
   output$dynamic <- renderDataTable(Infractions_3year, options = list(pageLength = 10))
   output$barcount <- renderPlot(
-    Infraction_Codes_Total %>% filter(Years == input$year) %>%
+    Infractions_Code_Total %>% filter(Year == input$year) %>%
       group_by(Infraction_Code) %>% summarise(sum(Occurrences)) %>%
       ggplot() + geom_bar(aes(`sum(Occurrences)`, Infraction_Code), fill = 'black', color = 'red', stat = 'identity') +
       theme_dark() + labs(x = "Total Occurrences", y = 'Infraction Code'))

@@ -36,7 +36,9 @@ Launching the server via the command:
 Serving the directory . at http://localhost:5118
 Launched the hugo server in the background (process ID: 42936). To stop it, call blogdown::stop_server() or restart the R session.
 
-
+library(readr)
+Infractions_Code_Total <- read_csv("Infractions_Code Total.csv")
+View(Infractions_Code_Total)
 new_post(title="New GGplot2 graph", ext=" .Rmd", subdir="posts")
 new_post(title = "Quiz (2) Final Project Topic", ext = ".Rmd", subdir = "posts")
 new_post(title = "Homework (3) Day 5 plots", ext = ".Rmd", subdir = "posts")
