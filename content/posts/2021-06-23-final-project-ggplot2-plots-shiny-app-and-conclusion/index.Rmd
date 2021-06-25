@@ -1,0 +1,248 @@
+---
+title: 'Final Project: ggplot2 plots, Shiny app, and Conclusion'
+author: R package build
+date: '2021-06-23'
+slug: []
+categories: ['Final Project', 'plots', 'Shiny', 'Conclusions']
+tags: ['Final Project', 'plots', 'Shiny', 'Conclusions']
+---
+```{r include = FALSE}
+library(tidyverse)
+library(patchwork)
+library(readr)
+library(blogdown)
+library(vroom)
+library(tidyverse)
+library(shiny)
+library(gghighlight)
+Infractions_3year <- read_csv("Infractions_3year.csv")
+Infractions_3year <- Infractions_3year %>% mutate(Year = as.factor(Year), Grade = as.factor(Grade))
+
+Infractions_2016 <- read_csv("2016 infractions.csv")
+
+Infraction_Code_2016 <- read_csv("Infraction_Code_2016.csv")
+Infraction_Code_2016 <- Infraction_Code_2016 %>% mutate(Infraction_Code = as.factor(Infraction_Code))
+Infraction_Code_2016 <- select(Infraction_Code_2016, -c(X3:X22))
+Infraction_Code_2017 <- read_csv("Infraction_Code_2017.csv")
+Infraction_Code_2017 <- Infraction_Code_2017 %>% mutate(Infraction_Code = as.factor(Infraction_Code))
+Infraction_Code_2017 <- rename(Infraction_Code_2017, Occurrences = Count)
+Infraction_Code_2017 <- select(Infraction_Code_2017, -c(X3:X21))
+Infraction_Code_2017 <- Infraction_Code_2017[-c(20,21,22,23,24,25,26,27),]
+Infraction_Code_2018 <- read_csv("Infraction_Code_2018.csv")
+Infraction_Code_2018 <- Infraction_Code_2018 %>% mutate(Infraction_Code = as.factor(Infraction_Code))
+Infraction_Code_2018 <- rename(Infraction_Code_2018, Occurrences = Count)
+Infraction_Code_2018 <- select(Infraction_Code_2018, -c(X3:X20))
+Infraction_Code_2018 <- Infraction_Code_2018[-c(20,21,22,23,24,25,26,27),]
+```
+
+
+## What are we trying to accomplish?
+
+  + Our goal is to examine the past data from the academic school years of 2016-2018 to determine any trends in discipline based on grade, gender, and infraction type. All of the data is discrete data points such as grade, demerits, infractions, etc, so we are a bit limited in the number of ways we can view the information. However, our goal is attainable and remains can any conclusions be drawn that may lead to a better learning experience for students?
+  
+Let's start by using ggplot2 to get an overall view of the infractions and demerits for the academic school years of 2016-2018. As we investigate, infractions are defined as "less serious" offenses that tend to occur on a usual basis. This would be things such as disorderly conduct in class, being late for a class, etc. Demerits are reserved for the more serious offenses such as cheating, fighting, skipping a class etc.
+
+### ggplot2 plots
+
+******
+
+```{r}
+plot_5 <-  Infractions_3year %>% ggplot() +
+  geom_bar(aes(Year, Infractions, fill = Year), stat = 'identity') +
+  labs(title = "Total Number of Infractions by Year",
+       subtitle = "Grades 7th - 12th (2016-2018)", 
+       x = 'Academic Year') + theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = 'none')
+
+plot_6 <- Infractions_3year %>% ggplot() +
+  geom_bar(aes(Year, Demerits, fill = Year), stat = 'identity') +
+  labs(title = "Total Number of Demerits by Year",
+       subtitle = "Grades 7th - 12th (2016-2018)", 
+       x = 'Academic Year') + theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = 'none')
+
+
+plot_5 + plot_6
+
+plot_2 <- ggplot(Infractions_3year) +
+  geom_bar(aes(Grade, Infractions, fill = Grade), stat = 'identity') +
+  facet_wrap(~Year) + theme_dark() + labs(title = 'Infractions for each academic year',
+                                          subtitle = "(By Grade Level)",
+                                          x = 'Grade Level') +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+
+plot_3 <- ggplot(Infractions_3year) +
+  geom_bar(aes(Grade, Demerits, fill = Grade), stat = 'identity') +
+  facet_wrap(~Year) + theme_dark() + labs(title = 'Demerits for each academic year',
+                                          subtitle = "(By Grade Level)",
+                                          x = 'Grade Level') +
+  theme(plot.title = element_text(hjust = 0.5))
+
+plot_2 + plot_3
+
+
+```
+
+**********
+  + Observing the data for the academic years 2016-2018 we see 2016 had many more infractions 
+among the student body than the years 2017 and 2018. Demerits were higher in 2016 as well. So why was the year 2016 so different? Let's dig into the academic year 2016 a bit more to see why such a large difference exist and can we learn anything from that moving forward!
+
+*******
+
+```{r}
+plot_1 <- ggplot(Infractions_2016, aes(Grade, Infractions)) +
+  geom_point(data = filter(Infractions_2016, ID == 'AC006'),
+             color = 'orange', 
+             size = 5) +
+  geom_point(color = 'blue') + theme_light() + 
+  annotate(geom = 'text', x = 7.1, y = 83, label = "Student 'z' accounts for 12% of total
+                          school infractions in 2016", hjust = 'left') +
+  labs(title = '2016 Student Infractions by Grade Level',
+       subtitle = '(There were 671 total infractions for this academic year',
+       caption = "Student 'z' was only at the school for this academic year",
+       x = 'Grade Level')
+plot_1
+```
+
+  + Examining the 2016 academic year infractions by student, one student in the 7th grade has a large affect on the overall count. Student 'z' accounts for slightly more than 12% of all of the infractions for 2016. No Bueno!! We also note that this particular student was only enrolled for the 2016  academic school year. This partially accounts for why 2016 was much higher in the number of infractions but there's still more work to do.
+
+********
+
+Next, let's compare the years 2016 - 2018 to which types of infractions were most common.
+
+```{r}
+plot_7 <- ggplot(Infraction_Code_2016, aes(x = Infraction_Code, Occurrences)) +
+  geom_bar(stat = 'identity', fill = 'orange') + coord_flip() + theme_classic() +
+  scale_y_continuous(breaks = c(0,15,30,45,60,75,90,105,120,135,150)) +
+  labs(title = "2016 Total Infraction Summary",
+       subtitle = 'Breakdown By Infraction',
+       x = 'Infraction Code',
+       y = 'Number of Occurrences')
+
+plot_7
+```
+
+  + The above graph shows that in 2016 there were nearly 150 infractions related to Disorderly Conduct in the classroom. We also note there were about 90 infractions of 'talking' in the classroom as well, which I believe could be classified as disorderly conduct. The third largest infraction for 2016 was Failure to Return Signed Papers. 
+
+```{r}
+plot_8 <- ggplot(Infraction_Code_2017, aes(x = Infraction_Code, Occurrences)) +
+  geom_bar(stat = 'identity', fill = 'blue') + coord_flip() + theme_classic() +
+  scale_y_continuous(breaks = c(0,15,30,45,60,75,90,105,120,135,150)) +
+  labs(title = "2017 Total Infraction Summary",
+       subtitle = 'Breakdown By Infraction',
+       x = 'Infraction Code',
+       y = 'Number of Occurrences')
+plot_8
+```
+
+   + For 2017, we see again that disorderly conduct was the largest infraction type, however it is just slightly more than half of the occurrences of 2016. Failure to return signed papers is second with about 80 occurrences.
+
+```{r}
+plot_9 <- ggplot(Infraction_Code_2018, aes(x = Infraction_Code, Occurrences)) +
+  geom_bar(stat = 'identity', fill = 'green') + coord_flip() + theme_classic() + 
+  scale_y_continuous(breaks = c(0,15,30,45,60,75,90,105,120,135,150)) +
+  labs(title = "2018 Total Infraction Summary",
+       subtitle = 'Breakdown By Infraction',
+       x = 'Infraction Code',
+       y = 'Number of Occurrences')
+
+plot_9
+```
+
+  + Once again disorderly conduct in the classroom leads the way in 2018 with 'talking' in third. 
+Comparing the academic years 2016 - 2018 based on infraction type, they seem relatively similar. In all three years disorderly conduct and talking are at the top in number of occurrences. The difference between the number of occurrences of disorderly conduct and talking in 2016 is nearly the same as 2017 and 2018 combined! What changed? 
+
+********
+
+Looking at our original graphs from the beginning, we can clearly see that 7th and 9th grade are committing the most infractions, its also clear that the more serious demerit offenses are occurring in the 10th and 12th grade. This seems to lead to the conclusion that the disorderly conducts are occurring mostly in the lower aged grades (7-9) and this makes sense from a maturity standpoint. Our more serious offenses are coming from the older students (10-12) who are mature enough to pay attention in class but struggle in other areas pertaining to more freedom. 
+
+*******
+
+Let's evaluate how gender and grade level combined play into infractions and demerits.
+
+```{r}
+
+plot_10 <- Infractions_3year %>% ggplot() +
+  geom_bar(aes(Grade, Infractions, fill = Gender), stat = 'identity') +
+  scale_fill_manual(values = c('hotpink', 'blue')) +
+  theme_dark() + labs(title = ' Total Infractions by Grade and Gender',
+                      subtitle = 'Ladies much more well behaved',
+                      caption = '2016-2018',
+                      x = 'Grade Level') +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+
+
+plot_11 <- Infractions_3year %>% ggplot() +
+  geom_bar(aes(Grade, Demerits, fill = Gender), stat = 'identity') +
+  scale_fill_manual(values = c('hotpink', 'blue')) +
+  theme_dark() + labs(title = 'Total Demerits by Grade and Gender',
+                      subtitle = 'Ladies much more well behaved???',
+                      caption = '2016-2018',
+                      x = 'Grade Level') +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+plot_10 + plot_11
+```
+
+The gender comparison is, to me, not surprising to see that the boys in general commit more infractions and more demerit offenses. However, it is somewhat surprising to see that in general a discipline issue for females is often a demerit offense rather than just a simple infraction. This is true especially in the higher grade levels. 
+
+***********
+
+The data seems to show higher infractions in the lower grades, particularly 7th and 9th, with a decline in the simple disorderly conduct type issues as students get older. Let's examine some individual cases.
+
+```{r}
+Infractions_3year %>% ggplot(aes(Grade, Infractions, group = ID)) +
+  geom_line() +
+  geom_point() +
+  ylim(0,40) +
+  gghighlight(ID == 'TK001' | ID == 'MC007' | ID == 'DT005') +
+  theme_linedraw() + 
+  labs(title = 'Individual Infractions by Grade Level',
+       caption = '2016 - 2018',
+       x = 'Grade Level')
+```
+
+The above graph shows students according to grade level. In general, it seems that we can confirm an improvement in simple infractions as students get older.
+
+*******
+
+### Shiny Apps
+
+*******
+
+
+<iframe height="400" width="100%" frameborder="no" src="https://jhowarddcspractice.shinyapps.io/Final/"> </iframe>
+
+
+*******
+
+### Conclusions
+
+*******
+
+While our data gives some definite conclusions, it also leaves us lacking in answers in other areas.
+
+### Our definite conclusions,
+
+  + The school handbook needs to be cleaner and clearer in certain areas. For example, what's really the difference between talking in class and disorderly conduct in class? It seems there are areas that can be merged and more clearly defined for both the students as well as the teachers. 
+  + Our biggest problem grades seem to be the 7th and 9th grade. I submit that this makes sense because those are the two biggest 'transition' grade levels in junior high and high school. It makes sense that as students are still working to figure things out discipline issues may rise. I think that we may be able to improve in this area by assigning mentors to the students in these classes, in particular the young men.
+  + It was no surprise that the boys have more discipline issues than the girls. I submit that this is somewhat expected based simply on maturity levels, egos, and the desire for attention.
+  + We also saw that one student having many issues can skew the numbers for an entire grade or even an entire academic year. These types of students should be dealt with on a case by case basis since each situation could be so different.
+  
+### Areas that need more conclusive work,
+
+  + While it was clear our older students struggle with the more serious offenses, I'm not quite sure of a solution for that. 
+  + Yearly fluctuations in the infraction and demerit totals could change based on teacher decisions just as much as student discipline. There's not a great way to measure this change and how strong it might affect the numbers year over year.
+  + Disorderly conduct was the infraction that occurred most often in our data, however, that is a really open ended type of rule. It could be anything from sleeping in class to jumping up and down in class. Because this is such a wide ranging infraction, it's difficult to determine possible solutions to aid the students and teachers in this area.
+  
+### Final Analysis
+
+The two primary objectives of our school is to teach our students how to be effective Christians through a Biblical Worldview in education. Discipline in the school is an important piece in accomplishing this goal. While its clear there is still, and always will be improvements to make, my goal is to continue to evaluate and make changes when necessary. We strive for the end result to be the best possible learning and growing experience for our students.
